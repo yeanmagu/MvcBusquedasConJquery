@@ -1,0 +1,122 @@
+﻿@model IEnumerable<PruebaCascada.DAL.Productos>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+        @section scripts
+            { 
+            <script type="text/javascript">
+                console.log("archivo de datoss");
+                $(document).ready(function () {
+                    //alert("HOLA");
+                    $('#tbproductos').DataTable(
+                          {
+                              "language": {
+                                  "url": "json/Spanish.json"
+                              }
+
+                              
+                          }
+
+                        );
+                });
+
+            </script>
+            }
+         <div class="row">
+                 <div class="col-md-12" >
+                     <h2>Index</h2>
+                   
+                     <div class="row">
+                          <div class="col-md-12">
+                              <table id="tbproductos" class="display table-bordered" cellspacing="0">
+                                  <thead>
+                                      <tr>
+                                          <th>
+                                              @Html.DisplayNameFor(model => model.nombre)
+                                          </th>
+                                          <th>
+                                              @Html.DisplayNameFor(model => model.descripcion)
+                                          </th>
+                                          <th>
+                                              @*@Html.DisplayNameFor(model => model.Categorias.nombre)*@
+                                              Categoria
+                                          </th>
+                                          <th>
+                                              @*@Html.DisplayNameFor(model => model.Subcategorias.nombre)*@
+                                              Subcategoria
+                                          </th>
+                                          <th>
+                                              Acciones
+                                          </th>
+                                      </tr>
+                                  </thead>
+
+                                  <tbody>
+                                      @foreach (var item in Model)
+                                      {
+                                          <tr>
+                                              <td>
+                                                  @Html.DisplayFor(modelItem => item.nombre)
+                                              </td>
+                                              <td>
+                                                  @Html.DisplayFor(modelItem => item.descripcion)
+                                              </td>
+                                              <td>
+                                                  @Html.DisplayFor(modelItem => item.Categorias.nombre)
+                                              </td>
+                                              <td>
+                                                  @Html.DisplayFor(modelItem => item.Subcategorias.nombre)
+                                              </td>
+                                              <td>
+                                                  @Html.ActionLink("Edit", "Edit", new { id = item.id }) |
+                                                  @Html.ActionLink("Details", "Details", new { id = item.id }) |
+                                                  @Html.ActionLink("Delete", "Delete", new { id = item.id })
+                                              </td>
+                                          </tr>
+                                      }
+
+                                  </tbody>
+                                  <tfoot>
+
+                                      <tr>
+
+                                          <td>
+                                              @Html.DisplayNameFor(model => model.nombre)
+                                          </td>
+                                          <td>
+                                              @Html.DisplayNameFor(model => model.descripcion)
+                                          </td>
+                                          <td>
+                                              @*@Html.DisplayNameFor(model => model.Categorias.nombre)*@
+                                              Categoria
+                                          </td>
+                                          <td>
+                                              @*@Html.DisplayNameFor(model => model.Subcategorias.nombre)*@
+                                              Subcategoria
+                                          </td>
+                                          <td>
+                                              Acciones
+                                          </td>
+                                      </tr>
+                                  </tfoot>
+                              </table>
+                          </div>
+                     </div>
+                     <p>
+                         @Html.ActionLink("Nuevo", "Create")
+                     </p> 
+                 </div>
+         </div>
+  
+
+@*<script src="~/Scripts/jquery-1.12.3.js"></script>
+    <script src="~/Scripts/jquery.dataTables.min.js"></script>
+    <link href="~/Content/jquery.dataTables.min.css" rel="stylesheet" />*@
+
+
+
+
+
+

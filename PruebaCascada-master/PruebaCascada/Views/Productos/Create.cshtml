@@ -1,0 +1,102 @@
+﻿@model PruebaCascada.DAL.Productos
+
+@{
+    ViewBag.Title = "Create";
+}
+
+<h2>Create</h2>
+
+
+@using (Html.BeginForm()) 
+{
+    @Html.AntiForgeryToken()
+    
+    <div class="form-horizontal">
+        <h4>Productos</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.LabelFor(model => model.nombre, "Nombre", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.nombre, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.nombre, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.descripcion, "Descripción", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.descripcion, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.descripcion, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.idcat, "Categoría", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("idcat", null, "Seleccionar Categoría", htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.idcat, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.idsubcat, "Subcategoría", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @*@Html.DropDownList("idsubcat", null, htmlAttributes: new { @class = "form-control" })*@                
+                @Html.DropDownList("idsubcat", new SelectList(string.Empty, "Value", "Text"), "", htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.idsubcat, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Create" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+
+
+
+
+        // Cascada
+        $("#idcat").change(function () {
+            $("#idsubcat").empty();
+            $.ajax({
+
+                type: 'POST',
+
+                url: '@Url.Action("MostrarSubCategorias")',
+                dataType: 'json',
+                data: { id: $("#idcat").val() },
+                success: function (subcategories) {
+
+                    $.each(subcategories, function (i, subcategory) {
+
+                        $("#idsubcat").append('<option value="'
+                            + subcategory.Value + '">' +
+                            subcategory.Text + '</option>');
+                    });
+                },
+                error: function (ex) {
+                    //alert('Failed to retrieve Sub Categories : ' + ex);
+                }
+            });
+            return false;
+        })
+    });
+
+</script>
+
+}
